@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Template Django Home</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="michele rocha" name="keywords">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <!-- <main> -->
+
+        {% block conteudo %}  {% endblock  %}
+
+    <!-- </main> -->    
+
+    {% include 'footer.html' %}
+
+
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+    function updateStatus(itemId, itemType) {
+        $.ajax({
+            url: '/update_status/',  // Defina a URL da view que atualiza o status
+            method: 'POST',
+            data: {
+                'item_id': itemId,
+                'item_type': itemType,
+                csrfmiddlewaretoken: '{{ csrf_token }}'  // Adicione o token CSRF
+            },
+            success: function(response) {
+                // Atualize a tabela ou faça outras ações após a atualização bem-sucedida
+                location.reload();  // Recarregue a página, por exemplo
+            },
+            error: function() {
+                alert('Erro ao atualizar o status');
+            }
+        });
+    }
+    </script>
+    <script>
+    function adicionarAlgo() {
+        $.ajax({
+            url: '/analyse/',  // URL onde você adiciona algo ao banco de dados
+            method: 'POST',
+            data: {
+                // Dados a serem enviados para a adição ao banco de dados, se necessário
+                csrfmiddlewaretoken: '{{ csrf_token }}'  // Adicione o token CSRF
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Operação bem-sucedida, recarregue a página
+                    location.reload();
+                } else {
+                    alert('Erro ao adicionar algo ao banco de dados.');
+                }
+            },
+            error: function() {
+                alert('Erro ao adicionar algo ao banco de dados.');
+            }
+        });
+    }
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/moment.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="{% static 'mail/jqBootstrapValidation.min.js' %}"></script>
+    <script src="{% static 'mail/contact.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+{% load static %}
+<div class="container">
+
+    <!-- Tabela Sell -->
+    <div class="row">
+        {% for sell_item in sell_items %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm" style="background-color: red;">
+                <div class="card-body">
+                    <h5 class="card-title">Symbol: {{ sell_item.symbol }}</h5>
+                    <p class="card-text">Price: {{ sell_item.price }}</p>
+                    <p class="card-text">Quantity: {{ sell_item.quantity }}</p>
+                    <p class="card-text">Date: {{ sell_item.date }}</p>
+                    <p class="card-text">Ordem: VENDA</p>
+                    <button class="btn btn-danger" onclick="updateStatus('{{ sell_item.id }}', 'sell')">Turn Off</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Tabela Buy -->
+    <div class="row">
+        {% for buy_item in buy_items %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm" style="background-color: green;">
+                <div class="card-body">
+                    <h5 class="card-title">Symbol: {{ buy_item.symbol }}</h5>
+                    <p class="card-text">Price: {{ buy_item.price }}</p>
+                    <p class="card-text">Quantity: {{ buy_item.quantity }}</p>
+                    <p class="card-text">Date: {{ buy_item.date }}</p>
+                    <p class="card-text">Ordem: COMPRA</p>
+                    <button class="btn btn-success" onclick="updateStatus('{{ buy_item.id }}', 'buy')">Turn Off</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>

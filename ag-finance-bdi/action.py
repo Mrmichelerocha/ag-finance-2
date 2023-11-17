@@ -23,8 +23,8 @@ from skfuzzy import control as ctrl
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import MetaTrader5 as mt5
 import urllib.request, json
+from bs4 import BeautifulSoup
 
 class Action:
 
@@ -436,16 +436,16 @@ class Action:
     def check_price(self, ctx):     
         symbol = ctx.storage.get_belief("symbol")           
 
-        if not mt5.initialize():
-            print("Falha ao inicializar o MetaTrader 5.")
-            mt5.shutdown()
-        else:
-            print("Conexão ao MetaTrader 5 estabelecida.")
-            
-        mt5.symbol_select(symbol)
-        price=mt5.symbol_info_tick(symbol).ask
-        print("Valor do Preço da Ação AGORA: ", price)
-        ctx.storage.set_belief("price_now", price)
+        url = f'https://www.google.com/finance/quote/{symbol}:BVMF?sa=X&ved=2ahUKEwjHm-Wtucr-AhWvrJUCHTxCDDwQ3ecFegQINBAY'
+        response = requests.get(url)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        campo_preco = soup.find('div', {'class': 'YMlKec fxKbKc'})
+        valor_preco = campo_preco.text.strip()
+        
+        print("Valor do Preço da Ação AGORA: ", valor_preco)
+        ctx.storage.set_belief("price_now", valor_preco)
   
     def check_upordown(self, ctx):
         symbol = ctx.storage.get_belief("symbol")

@@ -1,4 +1,8 @@
 # Ignorar arquivos pycache
 __pycache__/action.cpython-310.pyc
 __pycache__/aumanaque.cpython-310.pyc
+ag-finance-bdi/belief/
+ag-finance-bdi/desire/
+ag-finance-bdi/intention/
+ag-finance-bdi/plan/
 

@@ -2,5 +2,7 @@
     "opening": true,
     "symbol": "GOAU4",
     "price_min_check": true,
-    "price_max_check": false
+    "price_max_check": true,
+    "price_min_GOAU4": 11.719599723815918,
+    "price_min_check_GOAU4": true
 }

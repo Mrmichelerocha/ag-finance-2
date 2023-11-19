@@ -43,7 +43,7 @@ class Action:
             
     def get_symbol(self, ctx):
         # parametros = ['PETR3','KEPL3', 'UNIP6', 'VALE3', 'PCAR3', 'SUZB3', 'HAPV3', 'CIEL3', 'RDOR3', 'BHIA3', 'MGLU3']
-                
+        
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")  # Recomendado ao rodar como root/user sem privilégios
@@ -57,9 +57,15 @@ class Action:
         url = 'https://www.fundamentus.com.br/resultado.php'
         driver.get(url)
 
+        # Aguarde até que o estado da página seja 'complete'
+        wait = WebDriverWait(driver, 10)
+        wait.until(lambda d: d.execute_script('return document.readyState') == 'complete')
+
         # Aguarde até que o elemento da tabela esteja presente
         local_tabela = '/html/body/div[1]/div[2]/table'
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, local_tabela)))
+        elemento_presente = EC.presence_of_element_located((By.XPATH, local_tabela))
+        wait.until(elemento_presente)
+
         elemento = driver.find_element(By.XPATH, local_tabela)
 
         # Extrai o HTML da tabela e passa para o pandas
@@ -68,7 +74,6 @@ class Action:
 
         # Limpe e pré-processe os dados
         tabela = tabela.set_index("Papel")
-
         # Aqui vamos assumir que você pode obter todos os dados necessários da tabela
         # Caso contrário, você precisará ajustar as colunas e a lógica de pré-processamento conforme necessário
         tabela = tabela[['Cotação', 'P/L', 'P/VP', 'Div.Yield', 'EV/EBIT', 'ROIC', 'Liq.2meses', 'Cresc. Rec.5a']]

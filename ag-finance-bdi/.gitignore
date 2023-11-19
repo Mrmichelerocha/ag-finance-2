@@ -1,0 +1,4 @@
+# Ignorar arquivos pycache
+__pycache__/action.cpython-310.pyc
+__pycache__/aumanaque.cpython-310.pyc
+

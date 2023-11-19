@@ -23,6 +23,8 @@ from skfuzzy import control as ctrl
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import urllib.request, json
 from bs4 import BeautifulSoup
 
@@ -44,6 +46,9 @@ class Action:
                 
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
+        options.add_argument("--no-sandbox")  # Recomendado ao rodar como root/user sem privilégios
+        options.add_argument("--disable-dev-shm-usage")  # Superar limitações de recursos
+        options.add_argument("--window-size=1920x1080")  # Definir tamanho da janela
 
         # Configure o driver do Chrome
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
@@ -52,11 +57,14 @@ class Action:
         url = 'https://www.fundamentus.com.br/resultado.php'
         driver.get(url)
 
-        # Encontre o elemento da tabela
+        # Aguarde até que o elemento da tabela esteja presente
         local_tabela = '/html/body/div[1]/div[2]/table'
-        elemento = driver.find_element("xpath", local_tabela)
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, local_tabela)))
+        elemento = driver.find_element(By.XPATH, local_tabela)
+
+        # Extrai o HTML da tabela e passa para o pandas
         html_tabela = elemento.get_attribute('outerHTML')
-        tabela = pd.read_html(str(html_tabela), thousands='.', decimal=',')[0]
+        tabela = pd.read_html(html_tabela, thousands='.', decimal=',')[0]
 
         # Limpe e pré-processe os dados
         tabela = tabela.set_index("Papel")

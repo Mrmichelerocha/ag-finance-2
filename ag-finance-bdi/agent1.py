@@ -12,7 +12,7 @@ action = Action()
 async def plan_event(ctx: Context):
     agent1.desire(ctx, 'initial_desire')
     
-    agent1.belief(ctx, "opening", False)
+    agent1.belief(ctx, "opening", True)
     agent1.belief(ctx, "symbol", "None")
     agent1.belief(ctx, "price_min_check", False)
     agent1.belief(ctx, "price_max_check", False)

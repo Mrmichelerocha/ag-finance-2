@@ -27,6 +27,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import urllib.request, json
 from bs4 import BeautifulSoup
+import os
+
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 
 class Action:
 
@@ -140,7 +144,7 @@ class Action:
         tabela = tabela.sort_values('ranking_total')
 
         # Extrai os símbolos das ações com melhores rankings
-        parametros = tabela.head(10).index.tolist()
+        parametros = tabela.head(30).index.tolist()
         print(parametros)        
         
         current_symbol = ctx.storage.get_belief("symbol")
@@ -600,7 +604,7 @@ class Action:
             quant = 1
 
             # URL do endpoint onde você deseja fazer o POST
-            url = 'http://127.0.0.1:8000/analyse/'
+            url = 'http://ec2-15-228-233-221.sa-east-1.compute.amazonaws.com:8000/analyse/'
 
             # Dados que você deseja enviar no corpo do POST (substitua pelos seus dados)
             data = {
@@ -641,7 +645,7 @@ class Action:
         quant = 1
 
         # URL do endpoint onde você deseja fazer o POST
-        url = 'http://127.0.0.1:8000/analyse/'
+        url = 'http://ec2-15-228-233-221.sa-east-1.compute.amazonaws.com:8000/analyse/'
 
         # Dados que você deseja enviar no corpo do POST (substitua pelos seus dados)
         data = {
@@ -673,7 +677,7 @@ class Action:
         symbol = ctx.storage.get_belief("symbol")
         
         # URL do endpoint onde você deseja fazer o GET para verificar se o símbolo está no banco
-        url = f'http://127.0.0.1:8000/wallet/?_symbol={symbol}'
+        url = f'http://ec2-15-228-233-221.sa-east-1.compute.amazonaws.com:8000/wallet/?_symbol={symbol}'
 
         # Realiza a requisição GET
         response = requests.get(url)
@@ -699,7 +703,7 @@ class Action:
         symbol = ctx.storage.get_belief("symbol")
         
         # URL do endpoint onde você deseja fazer o GET para verificar se o símbolo está no banco
-        url = f'http://127.0.0.1:8000/analyse/?_symbol={symbol}'
+        url = f'http://ec2-15-228-233-221.sa-east-1.compute.amazonaws.com:8000/analyse/?_symbol={symbol}'
 
         # Realiza a requisição GET
         response = requests.get(url)
